@@ -22,18 +22,39 @@ if (navigator.geolocation) {
 
     const coords = [latitude, latitude]
 
-    const map = L.map('map').setView([51.505, -0.09], 13);
+    // const map = L.map('map').setView([51.505, -0.09], 13);
+    const map = L.map('map').setView(coords, 13);
+    console.log(map);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
     // L.marker([51.5, -0.09])
-    L.marker(coords)
-        .addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
+    // L.marker(coords)
+    //     .addTo(map)
+    //     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    //     .openPopup();
+      
+      map.on('click', (mapEvent)=> {
+        console.log(mapEvent);
 
+        const {lat, lng} = mapEvent.latlng
+
+        // L.marker(coords)
+        L.marker([lat, lng])
+        .addTo(map)
+        // .bindPopup('works!')
+        .bindPopup(L.popup({
+            maxWidth: '250px',
+            minWidth: '100px',
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+        }))
+        .setPopupContent('works!')
+        .openPopup();
+      })
     }, () => {
     
     }
@@ -43,3 +64,4 @@ if (navigator.geolocation) {
 
 //  Using the Geolocation API
 // 233. Displaying a Map Using Leaflet Library
+// 234. Displaying a Map Marker
