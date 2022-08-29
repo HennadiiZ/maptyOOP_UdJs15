@@ -11,6 +11,8 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+let map, mapEvent;
+
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
 
@@ -23,7 +25,7 @@ if (navigator.geolocation) {
     const coords = [latitude, latitude]
 
     // const map = L.map('map').setView([51.505, -0.09], 13);
-    const map = L.map('map').setView(coords, 13);
+    map = L.map('map').setView(coords, 13);
     console.log(map);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -36,7 +38,37 @@ if (navigator.geolocation) {
     //     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
     //     .openPopup();
       
-      map.on('click', (mapEvent)=> {
+      map.on('click', (mapE)=> {
+        mapEvent = mapE;  
+        form.classList.remove('hidden');
+        inputDistance.focus();
+
+        // console.log(mapEvent);
+
+        // const {lat, lng} = mapEvent.latlng
+
+        // // L.marker(coords)
+        // L.marker([lat, lng])
+        // .addTo(map)
+        // // .bindPopup('works!')
+        // .bindPopup(L.popup({
+        //     maxWidth: '250px',
+        //     minWidth: '100px',
+        //     autoClose: false,
+        //     closeOnClick: false,
+        //     className: 'running-popup',
+        // }))
+        // .setPopupContent('works!')
+        // .openPopup();
+      })
+    }, () => {
+      alert('could not get your position');
+    }
+  );
+}
+
+form.addEventListener('submit', (e)=> {
+    e.preventDefault();
         console.log(mapEvent);
 
         const {lat, lng} = mapEvent.latlng
@@ -54,14 +86,9 @@ if (navigator.geolocation) {
         }))
         .setPopupContent('works!')
         .openPopup();
-      })
-    }, () => {
-    
-    }
-  );
-}
-
+})
 
 //  Using the Geolocation API
 // 233. Displaying a Map Using Leaflet Library
 // 234. Displaying a Map Marker
+// 235. Rendering Workout Input Form
